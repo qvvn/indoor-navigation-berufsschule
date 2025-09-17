@@ -46,8 +46,6 @@ async function checkURLParameter() {
 
 // NEU: Notification anzeigen (einfache Lösung)
 function showNotification(message) {
-    // Einfache Alert-Benachrichtigung
-    // Du kannst das später durch eine schönere Notification ersetzen
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
@@ -88,32 +86,39 @@ async function initializeApp() {
 function setupEventListeners() {
     // QR-Scanner Button
     const scannerButton = document.getElementById('start-scanner');
-    scannerButton.addEventListener('click', function() {
-        if (scannerActive) {
-            stopQRScanner(); // Scanner stoppen wenn aktiv
-        } else {
-            startQRScanner(); // Scanner starten wenn inaktiv
-        }
-    });
+    if (scannerButton) {
+        scannerButton.addEventListener('click', function() {
+            if (typeof scannerActive !== 'undefined' && scannerActive) {
+                stopQRScanner(); // Scanner stoppen wenn aktiv
+            } else {
+                startQRScanner(); // Scanner starten wenn inaktiv
+            }
+        });
+    }
     
     // Route berechnen Button
     const routeButton = document.getElementById('find-route');
-    routeButton.addEventListener('click', async function() {
-        await berechneUndZeigeRoute(); // Route zwischen Start und Ziel berechnen
-    });
+    if (routeButton) {
+        routeButton.addEventListener('click', async function() {
+            await berechneUndZeigeRoute(); // Route zwischen Start und Ziel berechnen
+        });
+    }
     
     // Ziel-Dropdown: Automatisch Route berechnen wenn sich Ziel ändert
     const zielSelect = document.getElementById('destination-select');
-    zielSelect.addEventListener('change', async function() {
-        if (aktuellerStandort && zielSelect.value) {
-            await berechneUndZeigeRoute(); // Sofort neue Route berechnen
-        }
-    });
+    if (zielSelect) {
+        zielSelect.addEventListener('change', async function() {
+            if (aktuellerStandort && zielSelect.value) {
+                await berechneUndZeigeRoute(); // Sofort neue Route berechnen
+            }
+        });
+    }
 }
 
 // Dropdown-Menü mit allen verfügbaren Räumen füllen
 async function befuelleZielDropdown() {
     const dropdown = document.getElementById('destination-select');
+    if (!dropdown) return;
     
     // Loading-Text anzeigen
     dropdown.innerHTML = '<option value="">-- Lade Räume... --</option>';
@@ -152,7 +157,7 @@ async function setzeAktuellenStandort(raumId) {
     
     // Wenn bereits ein Ziel ausgewählt ist, sofort Route berechnen
     const zielSelect = document.getElementById('destination-select');
-    if (zielSelect.value) {
+    if (zielSelect && zielSelect.value) {
         await berechneUndZeigeRoute();
     }
 }
@@ -160,6 +165,7 @@ async function setzeAktuellenStandort(raumId) {
 // Benutzeroberfläche aktualisieren
 async function updateUI() {
     const currentRoomElement = document.getElementById('current-room');
+    if (!currentRoomElement) return;
     
     if (aktuellerStandort) {
         // Raum-Details aus Datenbank holen
@@ -169,8 +175,7 @@ async function updateUI() {
             currentRoomElement.innerHTML = `
                 <strong>✅ ${raumInfo.name}</strong><br>
                 <small style="color: #666;">
-                    ${raumInfo.beschreibung}<br>
-                    ${raumInfo.raumtyp} • Etage ${raumInfo.etage}
+                    Etage ${raumInfo.etage}
                 </small>
             `;
             currentRoomElement.style.color = '#2d5a27'; // Grüne Farbe für Erfolg
@@ -183,7 +188,10 @@ async function updateUI() {
         }
         
         // Route-Button aktivieren
-        document.getElementById('find-route').disabled = false;
+        const routeButton = document.getElementById('find-route');
+        if (routeButton) {
+            routeButton.disabled = false;
+        }
         
     } else {
         // Noch kein Standort bekannt
@@ -194,7 +202,10 @@ async function updateUI() {
         currentRoomElement.style.color = '#666'; // Graue Farbe
         
         // Route-Button deaktivieren
-        document.getElementById('find-route').disabled = true;
+        const routeButton = document.getElementById('find-route');
+        if (routeButton) {
+            routeButton.disabled = true;
+        }
     }
 }
 
@@ -202,6 +213,8 @@ async function updateUI() {
 async function berechneUndZeigeRoute() {
     const zielSelect = document.getElementById('destination-select');
     const routeDisplay = document.getElementById('route-display');
+    
+    if (!zielSelect || !routeDisplay) return;
     
     // Loading-Anzeige
     routeDisplay.innerHTML = '🔄 Route wird berechnet...';
@@ -258,8 +271,11 @@ async function resetApp() {
     console.log('App wird zurückgesetzt...');
     
     aktuellerStandort = null;
-    document.getElementById('destination-select').value = '';
-    document.getElementById('route-display').innerHTML = 'Wähle erst Start und Ziel aus.';
+    const zielSelect = document.getElementById('destination-select');
+    const routeDisplay = document.getElementById('route-display');
+    
+    if (zielSelect) zielSelect.value = '';
+    if (routeDisplay) routeDisplay.innerHTML = 'Wähle erst Start und Ziel aus.';
     
     // Scanner stoppen falls aktiv
     if (typeof scannerActive !== 'undefined' && scannerActive) {
@@ -276,7 +292,11 @@ async function simuliereQRScan(raumId) {
     // Prüfen ob Raum in Datenbank existiert
     const raumInfo = await getRaumInfo(raumId);
     if (raumInfo) {
-        qrCodeErkannt(raumId); // Simuliert einen QR-Code Scan
+        if (typeof qrCodeErkannt !== 'undefined') {
+            qrCodeErkannt(raumId); // Simuliert einen QR-Code Scan
+        } else {
+            await setzeAktuellenStandort(raumId);
+        }
     } else {
         console.error(`❌ Raum ${raumId} existiert nicht in der Datenbank!`);
         alert(`Raum ${raumId} wurde nicht gefunden!`);
