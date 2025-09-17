@@ -6,10 +6,10 @@
     <title>Indoor Navigation - Berufsschule</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Favicon Fix -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🏫</text></svg>">
     
-    <!-- Meta für bessere Handy-Kompatibilität -->
+    <!-- Meta für Handy-Kompatibilität -->
     <meta name="theme-color" content="#1e2022">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
     <!-- App Container -->
     <div class="container">
         
-        <!-- Titel-Sektion -->
+        <!-- Titel -->
         <h1>🏫 Indoor Navigation</h1>
         <p>Finde deinen Weg durch unsere Berufsschule</p>
         
@@ -27,21 +27,7 @@
             <h2>📍 Dein Standort</h2>
             <div id="current-room" class="status-display">
                 <strong>📱 Noch nicht bekannt</strong><br>
-                <small style="color: #666;">Scanne einen QR-Code um deinen Standort zu ermitteln!</small>
-            </div>
-        </div>
-        
-        <!-- QR-Scanner -->
-        <div class="section">
-            <h2>📷 QR-Code Scanner</h2>
-            <button id="start-scanner" class="btn primary">
-                📱 Kamera starten
-            </button>
-            
-            <div id="camera-container" style="display: none;">
-                <video id="camera-video" autoplay playsinline></video>
-                <canvas id="camera-canvas" style="display: none;"></canvas>
-                <div id="scan-result"></div>
+                <small style="color: #666;">Scanne einen QR-Code (Kamera-App) um direkt hierher zu kommen!</small>
             </div>
         </div>
         
@@ -68,7 +54,7 @@
             </div>
         </div>
         
-        <!-- Debug-Info (kann später entfernt werden) -->
+        <!-- Debug-Info -->
         <div class="section debug">
             <details>
                 <summary>🔧 Debug-Funktionen</summary>
@@ -80,23 +66,9 @@
         </div>
     </div>
 
-    <!-- JavaScript - Ohne externe Libraries -->
-    <script>
-        // Mock jsQR function
-        window.jsQR = function(imageData, width, height) {
-            return null;
-        };
-    </script>
-    
-    <!-- Eure App-Scripte -->
+    <!-- Scripte -->
     <script src="database-api.js"></script>
     <script src="navigation-db.js"></script>
-    <script src="qr-scanner.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
-
