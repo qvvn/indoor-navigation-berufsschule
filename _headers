@@ -1,0 +1,2 @@
+/*
+  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; img-src 'self' data: blob:; media-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://sql.js.org https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline';
