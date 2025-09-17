@@ -1,0 +1,37 @@
+1. Einbindung des Links in den QR Code, damit wir direkt nach dem Scannen auf die aktualisierte Seite kommen in der,
+   der Raum schon ausgewählt ist je nach QR Code der gescannt wurde.
+Lösung: Aktuell Keine
+
+
+
+
+
+2. Wenn man Raum R132 ausgewählt hat sollte in der Leiste wo man hin möchte angezeigt werden das R132 nicht zur Auswahl steht , da man von dort aus        
+   beginnt.
+Lösung:  Aktuell Keine
+
+
+
+
+
+3. Administratorfunktionen einbinden im Code, damit ein neues Interface verwendet werden kann um Räume als admin hinzuzufügen.
+Lösung: Aktuell Keine
+
+
+
+
+4. Website nur für den Admin aufsetzen
+Lösung: Aktuell Keine
+
+
+
+
+5. Anzeige und Overlay für den Nutzer des Navis verbessern und aufpolieren, sodass es Benutzerfreundlicher wird.
+Lösung: Aktuell Keine
+
+
+
+
+
+6.  ** ggbfs. Datenbank in den code einbinden (erhöht Komplexität des Projektes um einen exponenziellen Wert). ** 
+Lösung: Aktuell Keine
