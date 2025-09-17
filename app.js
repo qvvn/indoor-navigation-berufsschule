@@ -13,7 +13,65 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Dann App initialisieren
     await initializeApp();
     setupEventListeners();
+    
+    // NEU: URL-Parameter für automatischen Standort prüfen
+    await checkURLParameter();
 });
+
+// NEU: Funktion um URL-Parameter zu prüfen und Standort automatisch zu setzen
+async function checkURLParameter() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomParam = urlParams.get('room');
+    
+    if (roomParam) {
+        console.log(`📱 QR-Code Parameter erkannt: ${roomParam}`);
+        
+        // Prüfen ob Raum in Datenbank existiert
+        const raumInfo = await getRaumInfo(roomParam);
+        
+        if (raumInfo) {
+            // Automatisch den Standort setzen
+            await setzeAktuellenStandort(roomParam);
+            
+            // Benutzer informieren
+            showNotification(`✅ Standort ${raumInfo.name} automatisch erkannt!`);
+            
+            console.log(`✅ Standort automatisch gesetzt: ${roomParam}`);
+        } else {
+            console.warn(`⚠️ Raum ${roomParam} nicht in Datenbank gefunden`);
+            showNotification(`⚠️ QR-Code ${roomParam} unbekannt`);
+        }
+    }
+}
+
+// NEU: Notification anzeigen (einfache Lösung)
+function showNotification(message) {
+    // Einfache Alert-Benachrichtigung
+    // Du kannst das später durch eine schönere Notification ersetzen
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #2d5a27;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        max-width: 300px;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Nach 4 Sekunden automatisch entfernen
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 4000);
+}
 
 // App-Initialisierung: Alles vorbereiten
 async function initializeApp() {
@@ -80,8 +138,7 @@ async function befuelleZielDropdown() {
         console.error('Fehler beim Laden der Räume:', error);
         dropdown.innerHTML = '<option value="">-- Fehler beim Laden --</option>';
     }
-} "Klassenzimmer A101"
-
+}
 
 // Aktuellen Standort setzen (wird vom QR-Scanner aufgerufen)
 async function setzeAktuellenStandort(raumId) {
