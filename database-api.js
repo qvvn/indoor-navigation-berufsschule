@@ -1,47 +1,35 @@
-// database-api.js - Vereinfacht ohne SQL.js (CSP-freundlich)
+// database-api.js - Einfach ohne unnötige Infos
 
-// Raum-Daten direkt in JavaScript (ohne SQLite)
+// Raum-Daten (nur das Nötigste)
 const RAEUME_DATEN = {
     "R132": {
         id: "R132",
         name: "Raum 132", 
-        beschreibung: "Informatikraum mit 30 PC-Arbeitsplätzen",
-        raumtyp: "Informatikraum",
         etage: "3"
     },
     "R133": {
         id: "R133", 
         name: "Raum 133",
-        beschreibung: "Mathematikraum mit Whiteboard und Beamer", 
-        raumtyp: "Mathematikraum",
         etage: "3"
     },
     "R134": {
         id: "R134",
         name: "Raum 134",
-        beschreibung: "Englischraum mit interaktiver Tafel",
-        raumtyp: "Sprachraum", 
         etage: "3"
     },
     "R135": {
         id: "R135",
         name: "Raum 135", 
-        beschreibung: "Physikraum mit Experimentierplätzen",
-        raumtyp: "Physikraum",
         etage: "3"
     },
     "R136": {
         id: "R136",
         name: "Raum 136",
-        beschreibung: "Chemieraum mit Laborausstattung", 
-        raumtyp: "Chemieraum",
         etage: "3"
     },
     "R137": {
         id: "R137",
         name: "Raum 137",
-        beschreibung: "Biologieraum mit Mikroskopen",
-        raumtyp: "Biologieraum", 
         etage: "3"
     }
 };
@@ -56,7 +44,7 @@ const VERBINDUNGEN = {
     "R137": ["R136"]
 };
 
-// Datenbank initialisieren (ersetzt SQLite)
+// Datenbank initialisieren
 async function initDatabase() {
     console.log('📊 Lokale Datenbank initialisiert');
     console.log(`✅ ${Object.keys(RAEUME_DATEN).length} Räume geladen`);
@@ -73,7 +61,7 @@ async function getRaumInfo(raumId) {
     return RAEUME_DATEN[raumId] || null;
 }
 
-// Route berechnen (einfacher Dijkstra-ähnlicher Algorithmus)
+// Route berechnen
 async function berechneRoute(startRaum, zielRaum) {
     console.log(`🗺️ Route berechnen: ${startRaum} → ${zielRaum}`);
     
@@ -100,7 +88,7 @@ async function berechneRoute(startRaum, zielRaum) {
         };
     }
     
-    // Einfache Routenberechnung (Breadth-First Search)
+    // Route finden
     const route = findRoute(startRaum, zielRaum);
     
     if (route.length > 0) {
@@ -109,7 +97,7 @@ async function berechneRoute(startRaum, zielRaum) {
             if (index === 0) {
                 return `🚀 Start: ${raum.name}`;
             } else if (index === route.length - 1) {
-                return `🎯 Ziel erreicht: ${raum.name}`;
+                return `🎯 Ziel: ${raum.name}`;
             } else {
                 return `➡️ Gehe zu: ${raum.name}`;
             }
@@ -118,8 +106,7 @@ async function berechneRoute(startRaum, zielRaum) {
         return {
             gefunden: true,
             beschreibung: routeBeschreibung,
-            route: route,
-            distanz: route.length - 1
+            route: route
         };
     } else {
         return {
@@ -129,7 +116,7 @@ async function berechneRoute(startRaum, zielRaum) {
     }
 }
 
-// Breadth-First Search für Routenfindung
+// Routenfindung
 function findRoute(start, ziel) {
     const queue = [[start]];
     const visited = new Set();
@@ -156,29 +143,20 @@ function findRoute(start, ziel) {
         }
     }
     
-    return []; // Keine Route gefunden
+    return [];
 }
 
-// QR-Scan loggen (für Statistiken)
+// QR-Scan loggen
 async function logQRScan(raumId) {
     const timestamp = new Date().toISOString();
-    console.log(`📱 QR-Scan geloggt: ${raumId} um ${timestamp}`);
-    
-    // In localStorage speichern für Statistiken
-    const scans = JSON.parse(localStorage.getItem('qr_scans') || '[]');
-    scans.push({ raumId, timestamp });
-    localStorage.setItem('qr_scans', JSON.stringify(scans));
+    console.log(`📱 QR-Scan: ${raumId} um ${timestamp}`);
 }
 
-// Gebäude-Statistiken
+// Statistiken
 async function getGebaeudeStats() {
     const raeume = await getAlleRaeume();
-    const scans = JSON.parse(localStorage.getItem('qr_scans') || '[]');
-    
     return {
         anzahl_raeume: raeume.length,
-        anzahl_scans: scans.length,
-        etagen: [...new Set(raeume.map(r => r.etage))],
-        raumtypen: [...new Set(raeume.map(r => r.raumtyp))]
+        etagen: [...new Set(raeume.map(r => r.etage))]
     };
 }
