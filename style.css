@@ -1,0 +1,290 @@
+/* Modernes Dunkel-Design für Indoor Navigation */
+
+/* Farbpalette */
+:root {
+    --color-bg-dark: #121518;       /* Sehr dunkler Hintergrund */
+    --color-bg-container: #1f262a;  /* Container-Hintergrund */
+    --color-primary: #4fc3f7;       /* Akzentfarbe (helles Blau) */
+    --color-primary-dark: #3a99d8;  /* Dunkleres Blau für Hover */
+    --color-text-light: #e1e8eb;    /* Helle Schrift */
+    --color-text-muted: #7a8a93;    /* Gedämpfte Schrift */
+    --color-border: #2a353b;        /* Dezente Borderfarbe */
+    --color-error-bg: #b00020;      /* Fehlerrot */
+    --color-error-text: #f9d6d5;    /* Helle Fehlertextfarbe */
+    --color-success-bg: #2e7d32;    /* Grüner Erfolgshintergrund */
+    --color-success-text: #c8facc;  /* Heller Erfolgstext */
+}
+
+/* Reset & Basis */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    min-height: 100vh;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Container */
+.container {
+    background-color: var(--color-bg-container);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    max-width: 480px;
+    width: 100%;
+    padding: 30px 25px;
+}
+
+/* Überschrift */
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--color-text-light);
+    letter-spacing: 1px;
+}
+
+/* Beschreibung */
+h1 + p {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+/* Abschnitte */
+.current-location,
+.scanner-section,
+.destination-section,
+.route-section {
+    margin-bottom: 30px;
+}
+
+/* Unterüberschriften */
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--color-text-light);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 6px;
+}
+
+/* Aktueller Standort */
+#current-room {
+    background-color: #273238;
+    padding: 18px 20px;
+    border-radius: 12px;
+    font-size: 17px;
+    color: var(--color-text-light);
+    box-shadow: inset 0 0 8px rgba(79, 195, 247, 0.3);
+}
+
+/* Buttons Basis */
+button,
+.scan-button,
+.route-button {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+    user-select: none;
+    display: inline-block;
+}
+
+/* QR-Scanner Button */
+.scan-button {
+    background-color: var(--color-primary);
+    color: var(--color-bg-dark);
+    box-shadow: 0 4px 12px rgba(79, 195, 247, 0.6);
+}
+
+.scan-button:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+    box-shadow: 0 6px 20px rgba(58, 153, 216, 0.8);
+    transform: translateY(-2px);
+}
+
+.scan-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(58, 153, 216, 0.7);
+}
+
+.scan-button:disabled {
+    background-color: #3a3f44;
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Route-Button */
+.route-button {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2.5px solid var(--color-primary);
+    box-shadow: none;
+    margin-top: 15px;
+}
+
+.route-button:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-bg-dark);
+    box-shadow: 0 6px 20px rgba(79, 195, 247, 0.6);
+    transform: translateY(-2px);
+}
+
+.route-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(79, 195, 247, 0.5);
+}
+
+.route-button:disabled {
+    border-color: #3a3f44;
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+/* Dropdown */
+.destination-dropdown {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid var(--color-border);
+    background-color: #273238;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin-top: 10px;
+}
+
+.destination-dropdown:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* Dropdown Optionen */
+.destination-dropdown option {
+    background-color: var(--color-bg-container);
+    color: var(--color-text-light);
+}
+
+/* QR-Scanner Video */
+#qr-video {
+    width: 100%;
+    max-height: 320px;
+    border-radius: 14px;
+    margin-top: 20px;
+    object-fit: cover;
+    border: 2px solid var(--color-border);
+    box-shadow: 0 0 12px rgba(79, 195, 247, 0.4);
+}
+
+/* Route-Anzeige */
+#route-display {
+    background-color: #273238;
+    border-radius: 14px;
+    padding: 22px 25px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text-light);
+    white-space: pre-line;
+    box-shadow: inset 0 0 12px rgba(79, 195, 247, 0.15);
+}
+
+/* Statusmeldungen */
+.route-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-top: 15px;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(46, 125, 50, 0.6);
+}
+
+.route-error {
+    background-color: var(--color-error-bg);
+    color: var(--color-error-text);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-top: 15px;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(176, 0, 32, 0.7);
+}
+
+/* Scan-Animation */
+.scanning {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.scanning::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.4), transparent);
+    animation: scan-slide 2.5s linear infinite;
+}
+
+@keyframes scan-slide {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .container {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    #current-room {
+        font-size: 15px;
+        padding: 14px 16px;
+    }
+
+    button,
+    .scan-button,
+    .route-button {
+        font-size: 15px;
+        padding: 14px 0;
+    }
+}

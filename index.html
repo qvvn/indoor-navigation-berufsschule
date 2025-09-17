@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Wichtig für Handy-Display -->
+    <title>Indoor Navigation - Berufsschule</title>
+    <link rel="stylesheet" href="style.css"> <!-- CSS Datei einbinden -->
+</head>
+<body>
+    <!-- Hauptcontainer für die gesamte App -->
+    <div class="container">
+        <h1>🏫 Indoor Navigation</h1>
+        <p>Finde deinen Weg in unserer Schule!</p>
+        
+        <!-- Bereich für aktuellen Standort -->
+        <div class="current-location">
+            <h2>📍 Dein aktueller Standort:</h2>
+            <p id="current-room">Noch nicht bekannt - Scanne einen QR-Code!</p>
+        </div>
+        
+        <!-- QR-Code Scanner Bereich -->
+        <div class="scanner-section">
+            <h2>📱 QR-Code scannen:</h2>
+            <button id="start-scanner" class="scan-button">Kamera starten</button>
+            
+            <!-- Video Element für Kamera (wird später eingeblendet) -->
+            <video id="qr-video" style="display: none;" playsinline></video>
+            <canvas id="qr-canvas" style="display: none;"></canvas> <!-- Für QR-Code Verarbeitung -->
+        </div>
+        
+        <!-- Zielauswahl Bereich -->
+        <div class="destination-section">
+            <h2>🎯 Wo möchtest du hin?</h2>
+            <select id="destination-select" class="destination-dropdown">
+                <option value="">-- Wähle dein Ziel --</option>
+                <!-- Optionen werden per JavaScript eingefügt -->
+            </select>
+            <button id="find-route" class="route-button">Route berechnen</button>
+        </div>
+        
+        <!-- Wegbeschreibung Bereich -->
+        <div class="route-section">
+            <h2>🗺️ Dein Weg:</h2>
+            <div id="route-display">Wähle erst Start und Ziel aus.</div>
+        </div>
+    </div>
+    
+    <!-- jsQR Library für echte QR-Code Erkennung -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    
+    <!-- JavaScript Dateien einbinden -->
+    <script src="database-api.js"></script> <!-- Einfache JavaScript-Datenbank -->
+    <script src="qr-scanner.js"></script> <!-- QR-Code Scanner -->
+    <script src="navigation-db.js"></script> <!-- Navigation mit Datenbank -->
+    <script src="app.js"></script> <!-- Hauptlogik -->
+</body>
+</html>
