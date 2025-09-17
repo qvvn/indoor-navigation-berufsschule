@@ -6,6 +6,9 @@
     <title>Indoor Navigation - Berufsschule</title>
     <link rel="stylesheet" href="style.css">
     
+    <!-- Favicon Fix -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🏫</text></svg>">
+    
     <!-- Meta für bessere Handy-Kompatibilität -->
     <meta name="theme-color" content="#1e2022">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,6 +53,13 @@
             </select>
         </div>
         
+        <!-- Route berechnen Button -->
+        <div class="section">
+            <button id="find-route" class="btn primary" disabled>
+                🗺️ Route berechnen
+            </button>
+        </div>
+        
         <!-- Route-Anzeige -->
         <div class="section">
             <h2>🗺️ Deine Route</h2>
@@ -70,23 +80,11 @@
         </div>
     </div>
 
-    <!-- JavaScript Libraries - OHNE EXTERNE CDNs -->
+    <!-- JavaScript - Ohne externe Libraries -->
     <script>
-        // Einfacher QR-Code Scanner ohne externe Library
+        // Mock jsQR function
         window.jsQR = function(imageData, width, height) {
-            // Vereinfachte QR-Code Erkennung für Testing
-            // In Produktion sollte hier eine echte Library sein
-            return null; // Erstmal deaktiviert
-        };
-        
-        // SQL.js Ersatz - Verwenden localStorage statt SQLite
-        window.SQL = {
-            Database: function() {
-                return {
-                    exec: function(query) { return []; },
-                    close: function() {}
-                };
-            }
+            return null;
         };
     </script>
     
