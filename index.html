@@ -2,56 +2,98 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Wichtig für Handy-Display -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indoor Navigation - Berufsschule</title>
-    <link rel="stylesheet" href="style.css"> <!-- CSS Datei einbinden -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Meta für bessere Handy-Kompatibilität -->
+    <meta name="theme-color" content="#1e2022">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
-    <!-- Hauptcontainer für die gesamte App -->
+    <!-- App Container -->
     <div class="container">
+        
+        <!-- Titel-Sektion -->
         <h1>🏫 Indoor Navigation</h1>
-        <p>Finde deinen Weg in unserer Schule!</p>
+        <p>Finde deinen Weg durch unsere Berufsschule</p>
         
-        <!-- Bereich für aktuellen Standort -->
-        <div class="current-location">
-            <h2>📍 Dein aktueller Standort:</h2>
-            <p id="current-room">Noch nicht bekannt - Scanne einen QR-Code!</p>
+        <!-- Aktueller Standort -->
+        <div class="section">
+            <h2>📍 Dein Standort</h2>
+            <div id="current-room" class="status-display">
+                <strong>📱 Noch nicht bekannt</strong><br>
+                <small style="color: #666;">Scanne einen QR-Code um deinen Standort zu ermitteln!</small>
+            </div>
         </div>
         
-        <!-- QR-Code Scanner Bereich -->
-        <div class="scanner-section">
-            <h2>📱 QR-Code scannen:</h2>
-            <button id="start-scanner" class="scan-button">Kamera starten</button>
+        <!-- QR-Scanner -->
+        <div class="section">
+            <h2>📷 QR-Code Scanner</h2>
+            <button id="start-scanner" class="btn primary">
+                📱 Kamera starten
+            </button>
             
-            <!-- Video Element für Kamera (wird später eingeblendet) -->
-            <video id="qr-video" style="display: none;" playsinline></video>
-            <canvas id="qr-canvas" style="display: none;"></canvas> <!-- Für QR-Code Verarbeitung -->
+            <div id="camera-container" style="display: none;">
+                <video id="camera-video" autoplay playsinline></video>
+                <canvas id="camera-canvas" style="display: none;"></canvas>
+                <div id="scan-result"></div>
+            </div>
         </div>
         
-        <!-- Zielauswahl Bereich -->
-        <div class="destination-section">
-            <h2>🎯 Wo möchtest du hin?</h2>
-            <select id="destination-select" class="destination-dropdown">
-                <option value="">-- Wähle dein Ziel --</option>
-                <!-- Optionen werden per JavaScript eingefügt -->
+        <!-- Zielauswahl -->
+        <div class="section">
+            <h2>🎯 Wohin möchtest du?</h2>
+            <select id="destination-select" class="select">
+                <option value="">-- Lade Räume... --</option>
             </select>
-            <button id="find-route" class="route-button">Route berechnen</button>
         </div>
         
-        <!-- Wegbeschreibung Bereich -->
-        <div class="route-section">
-            <h2>🗺️ Dein Weg:</h2>
-            <div id="route-display">Wähle erst Start und Ziel aus.</div>
+        <!-- Route-Anzeige -->
+        <div class="section">
+            <h2>🗺️ Deine Route</h2>
+            <div id="route-display" class="route-section">
+                Wähle erst Start und Ziel aus.
+            </div>
+        </div>
+        
+        <!-- Debug-Info (kann später entfernt werden) -->
+        <div class="section debug">
+            <details>
+                <summary>🔧 Debug-Funktionen</summary>
+                <button onclick="simuliereQRScan('R136')" class="btn debug">Test R136</button>
+                <button onclick="simuliereQRScan('R132')" class="btn debug">Test R132</button>
+                <button onclick="resetApp()" class="btn debug">App Reset</button>
+                <button onclick="zeigeAlleRaeume()" class="btn debug">Zeige Räume</button>
+            </details>
         </div>
     </div>
+
+    <!-- JavaScript Libraries - OHNE EXTERNE CDNs -->
+    <script>
+        // Einfacher QR-Code Scanner ohne externe Library
+        window.jsQR = function(imageData, width, height) {
+            // Vereinfachte QR-Code Erkennung für Testing
+            // In Produktion sollte hier eine echte Library sein
+            return null; // Erstmal deaktiviert
+        };
+        
+        // SQL.js Ersatz - Verwenden localStorage statt SQLite
+        window.SQL = {
+            Database: function() {
+                return {
+                    exec: function(query) { return []; },
+                    close: function() {}
+                };
+            }
+        };
+    </script>
     
-    <!-- jsQR Library für echte QR-Code Erkennung -->
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-    
-    <!-- JavaScript Dateien einbinden -->
-    <script src="database-api.js"></script> <!-- Einfache JavaScript-Datenbank -->
-    <script src="qr-scanner.js"></script> <!-- QR-Code Scanner -->
-    <script src="navigation-db.js"></script> <!-- Navigation mit Datenbank -->
-    <script src="app.js"></script> <!-- Hauptlogik -->
+    <!-- Eure App-Scripte -->
+    <script src="database-api.js"></script>
+    <script src="navigation-db.js"></script>
+    <script src="qr-scanner.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
